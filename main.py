@@ -39,9 +39,15 @@ def main():
     #en_ner_bionlp13cg_md
     parser.add_argument('--en_ner_bionlp13cg_md', type=str2bool, default=True, nargs='?', const=True,
                         help="A spaCy NER model trained on the BIONLP13CG corpus.")
-    
-    
+    parser.add_argument('--number_of_workers', type=int, default=1, 
+                        help="Total number of workers that would be used to split work")
+    parser.add_argument('--this_is_worker', type=int, default=0, 
+                        help="Total number of workers that would be used to split work")
+        
     args = parser.parse_args()
+
+    print(args)
+    return 1
     
     assert args.CORD19_path != None, "you should specify a path to CORD19 collection"
     
