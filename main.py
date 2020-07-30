@@ -39,13 +39,12 @@ def main():
     #en_ner_bionlp13cg_md
     parser.add_argument('--en_ner_bionlp13cg_md', type=str2bool, default=True, nargs='?', const=True,
                         help="A spaCy NER model trained on the BIONLP13CG corpus.")
-    parser.add_argument('--number-of-workers', type=int, default=1, 
+    parser.add_argument('--number_of_workers', type=int, default=1, 
                         help="Total number of workers that would be used to split work")
-    parser.add_argument('--this-is-worker', type=int, default=0, 
+    parser.add_argument('--this_is_worker', type=int, default=0, 
                         help="Total number of workers that would be used to split work")
         
     args = parser.parse_args()
-
     
     assert args.CORD19_path != None, "you should specify a path to CORD19 collection"
     
@@ -53,10 +52,10 @@ def main():
 
     assert folder_output != None, "you should specify the path for output"
 
-    assert args.this-is-worker < args.number-of-workers, "extra workers are not permitted"
+    assert args.this_is_worker <= args.number_of_workers, "extra workers are not permitted"
 
-    num_worker = int(args.number-of-workers)
-    ind_worker = int(args.this-is-worker)
+    num_worker = int(args.number_of_workers)
+    ind_worker = int(args.this_is_worker)
 
     if args.delta == None:
         print("No delta file specified. The pipeline will process the whole collection.")
