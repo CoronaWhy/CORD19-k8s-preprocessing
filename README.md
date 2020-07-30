@@ -9,3 +9,4 @@ docker run --rm -it -v $(pwd):/work -v <path to CORD19folder>:/work/data coronaw
 cd /work
 python main.py [--output_path <folder for output/default=output>]
 ```
+- the output would be put in `output` folder
