@@ -39,21 +39,24 @@ def main():
     #en_ner_bionlp13cg_md
     parser.add_argument('--en_ner_bionlp13cg_md', type=str2bool, default=True, nargs='?', const=True,
                         help="A spaCy NER model trained on the BIONLP13CG corpus.")
-    parser.add_argument('--number_of_workers', type=int, default=1, 
+    parser.add_argument('--number-of-workers', type=int, default=1, 
                         help="Total number of workers that would be used to split work")
-    parser.add_argument('--this_is_worker', type=int, default=0, 
+    parser.add_argument('--this-is-worker', type=int, default=0, 
                         help="Total number of workers that would be used to split work")
         
     args = parser.parse_args()
 
-    print(args)
-    return 1
     
     assert args.CORD19_path != None, "you should specify a path to CORD19 collection"
     
     folder_output = args.output_path
 
     assert folder_output != None, "you should specify the path for output"
+
+    assert args.this-is-worker < args.number-of-workers, "extra workers are not permitted"
+
+    num_worker = int(args.number-of-workers)
+    ind_worker = int(args.this-is-worker)
 
     if args.delta == None:
         print("No delta file specified. The pipeline will process the whole collection.")
@@ -97,6 +100,7 @@ def main():
         """.format(old_doc_nubmer, new_doc_number))
         
     
+
     
     #quit()
     #paths_to_files = paths_to_files[:100]
@@ -110,9 +114,13 @@ def main():
     # if args.max_n_files != None:
     #     paths_to_files_sorted = paths_to_files_sorted[:args.max_n_files]
     
+    num_docs = len(paths_to_files)
+    chunk_size = num_docs // num_worker + 1
+    paths_to_files = [ paths_to_files[ pos:pos + chunk_size ] for pos in range( 0, num_docs, chunk_size ) ][ind_worker]
+
     print("""
-       We are going to process {} files from CORD19 database. 
-    """.format(len(paths_to_files)))
+       We are going to process {} files from CORD19 database of {} documents. 
+    """.format(len(paths_to_files), num_docs))
        
     
     
